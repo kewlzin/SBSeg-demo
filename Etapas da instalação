@@ -1,0 +1,384 @@
+# Guia de instalação - GNU Radio 3.10, UHD e gr-tempest
+
+
+```bash
+/home/lucas/prefix-3.10-clean
+```
+
+
+---
+
+## 1. Atualizar o sistema e instalar dependências base
+
+```bash
+sudo apt update
+```
+
+```bash
+sudo apt install -y autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool g++ git inetutils-tools libboost-all-dev libncurses-dev libusb-1.0-0 libusb-1.0-0-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools python3-ruamel.yaml
+```
+
+```bash
+sudo apt install libncurses-dev
+```
+
+Instalar dependências adicionais usadas na compilação do GNU Radio 3.10:
+
+```bash
+sudo apt install -y build-essential pkg-config libboost-all-dev pybind11-dev python3-pybind11 python3-dev python3-pip python3-click python3-click-plugins python3-zmq python3-packaging python3-pygccxml libfftw3-dev libgsm1-dev liborc-0.4-dev liblog4cpp5-dev libzmq3-dev libsndfile1-dev libcodec2-dev libgsm1-dev libusb-1.0-0-dev qtbase5-dev qttools5-dev qttools5-dev-tools pyqt5-dev-tools python3-pyqt5 libqwt-qt5-dev
+```
+
+Instalar dependências que foram necessárias para VOLK, spdlog, GMP e fmt:
+
+```bash
+sudo apt install -y libvolk-dev libspdlog-dev libgmp-dev libfmt-dev
+```
+
+---
+
+## 2. Instalar PyBOMBS
+
+```bash
+sudo apt install -y python3-pip python3-venv pipx
+```
+
+```bash
+pipx ensurepath
+```
+
+```bash
+pipx install PyBOMBS
+```
+
+Depois desse ponto, feche e abra o terminal novamente.
+
+
+
+---
+
+## 3. Criar o prefixo limpo
+
+Criar a pasta do prefixo:
+
+```bash
+mkdir prefix-3.10-clean
+```
+
+Inicializar o prefixo:
+
+```bash
+pybombs prefix init prefix-3.10-clean/ -a prefixclean
+```
+
+Configurar automaticamente:
+
+```bash
+pybombs -p prefixclean auto-config
+```
+
+Adicionar receitas padrão:
+
+```bash
+pybombs -p prefixclean recipes add-defaults
+```
+
+---
+
+## 4. Instalar dependências complementares usadas antes do PyBOMBS
+
+```bash
+sudo apt install   libboost-system-dev   libboost-thread-dev   libboost-chrono-dev   libboost-program-options-dev   libboost-filesystem-dev   libboost-date-time-dev   libboost-serialization-dev
+```
+
+Dependências SDL usadas depois para o bloco Video SDL:
+
+```bash
+sudo apt install libsdl1.2-dev
+```
+
+```bash
+sudo apt install libsdl2-dev (pode ser que não exista no repo, mas o pybombs instala automaticamente)
+```
+
+---
+
+## 5. Instalar GNU Radio e UHD pelo PyBOMBS
+
+```bash
+pybombs -p prefixclean install gnuradio uhd
+```
+
+Se houver problema com versão do CMake, instale o CMake via `pip`:
+
+```bash
+pip install --user "cmake==3.31.6"
+```
+
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+```bash
+hash -r
+```
+
+Verificar a versão do CMake:
+
+```bash
+which cmake
+```
+
+```bash
+cmake --version
+```
+deve retornar: cmake version 3.31.6
+
+
+E rodar novamente:
+
+```bash
+pybombs -p prefixclean install gnuradio uhd
+```
+
+---
+
+## 6. Carregar o ambiente do prefixo
+
+Sempre antes de usar o GNU Radio desse ambiente, rode:
+
+```bash
+source prefix-3.10-clean/setup_env.sh
+```
+
+Definir o diretório de imagens UHD:
+
+```bash
+export UHD_IMAGES_DIR=/usr/share/uhd/images
+```
+
+Abrir o GNU Radio Companion:
+
+```bash
+gnuradio-companion
+```
+aqui você confere que o gnuradio está abrindo
+---
+
+## 7. Clonar o gr-tempest
+
+Entrar na pasta `src` do prefixo:
+
+```bash
+cd prefix-3.10-clean/src/
+```
+
+Clonar o repositório:
+
+```bash
+git clone https://github.com/git-artes/gr-tempest.git
+```
+
+Entrar na pasta:
+
+```bash
+cd gr-tempest/
+```
+
+Criar e entrar na pasta de build:
+
+```bash
+mkdir build
+```
+
+```bash
+cd build/
+```
+
+---
+
+## 8. Compilar e instalar o gr-tempest
+
+
+
+```bash
+cmake .. -DCMAKE_INSTALL_PREFIX=/home/lucas/prefix-3.10-clean/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-std=c++11"
+```
+
+Compilar:
+
+```bash
+make
+```
+
+Instalar dentro do prefixo:
+
+```bash
+make install
+```
+
+Atualizar cache de bibliotecas:
+
+```bash
+sudo ldconfig
+```
+
+Abrir o GNU Radio Companion para validar:
+
+```bash
+gnuradio-companion
+```
+
+---
+
+## 9. Habilitar/compilar o gr-video-sdl no GNU Radio
+
+Entrar no build do GNU Radio:
+
+```bash
+cd ../../ (aqui você está voltando para a pasta raiz do prefixo)
+```
+
+```bash
+cd src/gnuradio/
+```
+
+```bash
+cd build/
+```
+
+Rodar o CMake habilitando o Video SDL:
+
+```bash
+cmake -DENABLE_GR_VIDEO_SDL=ON -DCMAKE_INSTALL_PREFIX=/home/lucas/prefix-3.10-clean/ ../
+```
+
+Instalar as dependências SDL que foram usadas:
+
+```bash
+sudo apt install libsdl1.2-dev
+```
+
+```bash
+sudo apt install libsdl2-dev
+```
+
+Rodar novamente o CMake:
+
+```bash
+cmake -DENABLE_GR_VIDEO_SDL=ON -DCMAKE_INSTALL_PREFIX=/home/lucas/prefix-3.10-clean/ ../
+```
+
+Compilar:
+
+```bash
+make
+```
+
+Instalar:
+
+```bash
+make install
+```
+
+Abrir o GRC para validar:
+
+```bash
+gnuradio-companion
+```
+
+---
+
+## 10. Corrigir os Missing Blocks do gr-tempest
+
+Alguns exemplos do gr-tempest dependem de hier blocks. Os principais que apareceram como `Missing Block` foram:
+
+- `Keep_1_in_N_Frames`
+- `FFT_autocorrelation`
+- `FFT_crosscorrelation`
+
+Entrar na pasta de exemplos:
+
+```bash
+cd prefix-3.10-clean/src
+```
+
+```bash
+cd gr-tempest/
+```
+
+```bash
+cd examples/
+```
+
+Copiar os hier blocks para a pasta local usada pelo GRC:
+
+```bash
+cp Keep_1_in_N_frames.grc ~/.local/state/gnuradio/
+```
+
+```bash
+cp FFT_autocorrelate.grc ~/.local/state/gnuradio/
+```
+
+```bash
+cp FFT_crosscorrelate.grc ~/.local/state/gnuradio/
+```
+
+Abrir cada hier block e gerar com **F5** dentro do GNU Radio Companion:
+
+```bash
+gnuradio-companion ~/.local/state/gnuradio/Keep_1_in_N_frames.grc
+```
+
+```bash
+gnuradio-companion ~/.local/state/gnuradio/FFT_autocorrelate.grc
+```
+
+```bash
+gnuradio-companion ~/.local/state/gnuradio/FFT_crosscorrelate.grc
+```
+
+Depois abrir o GRC novamente:
+
+```bash
+gnuradio-companion
+```
+
+---
+
+## 11. Validação esperada
+
+Ao abrir o GNU Radio Companion, deve aparecer algo parecido com:
+
+```text
+<<< Welcome to GNU Radio Companion 3.10.12.0 >>>
+
+Block paths:
+    /home/lucas/.local/state/gnuradio
+    /home/lucas/prefix-3.10-clean/share/gnuradio/grc/blocks
+```
+
+Se os `Missing Blocks` voltarem, confira se a pasta contém os arquivos gerados:
+
+```bash
+ls ~/.local/state/gnuradio
+```
+
+Devem existir arquivos relacionados a:
+
+```text
+Keep_1_in_N_frames.grc
+Keep_1_in_N_Frames.py
+Keep_1_in_N_Frames.block.yml
+FFT_autocorrelate.grc
+FFT_autocorrelation.py
+FFT_autocorrelation.block.yml
+FFT_crosscorrelate.grc
+FFT_crosscorrelation_.py
+FFT_crosscorrelation_.block.yml
+```
+
+---
+
+
