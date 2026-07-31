@@ -4,7 +4,7 @@ Artefatos necessários à reprodução dos resultados do artigo curto [1]. Uma v
 [1] BRITO, Lucas; TEODORO, Leonardo; TOMAZ, Pedro; ISALUSKI, Alyson; HYEDA, Leandro; OLIVEIRA-JR, Antonio; QUEIROZ, Saulo. Ataques de Canais Laterais Eletromagnéticos Ameaçam Seções Eleitorais Eletrônicas? Cenários e Recomendações. In: SIMPÓSIO BRASILEIRO DE SEGURANÇA DA INFORMAÇÃO E DE SISTEMAS COMPUTACIONAIS (SBSeg), 2026.
 
 | Resolução | Distância do alvo (metros) | Interface de vídeo | Resultado | Obs. |
-|:----------|:--------------------------:|:------------------:|:---------:|-----:|
+|:----------:|:--------------------------:|:------------------:|:---------:|:-----:|
 |1280x768@60| 0.5 metros                 |    VGA/HDMI        |Ataque bem sucedido| Com/Sem obstáculo |
 |1280x768@60|  1 metro                   |    VGA/HDMI        |Ataque bem sucedido| Com/Sem obstáculo |
 |1920x1080@60| 0.5 metros                |    VGA/HDMI        |Ataque bem sucedido| Com/Sem obstáculo |
