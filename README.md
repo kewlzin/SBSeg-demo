@@ -13,6 +13,10 @@ Síntese dos Resultados
 
 
 Para distâncias iguais ou superiores a dois metros, não foi poossível obter imagens legíveis no nosso cenário
+
+Preparação do ambiente
 ---
 Este experimento foi conduzido utilizando o módulo grtempest para o gnuradio, compilado em Linux Mint 20
 Para instalação do ambiente, refira-se à [esse guia](https://github.com/kewlzin/SBSeg-demo-Ataques-de-Canais-Laterais-Eletromagn-ticos/blob/main/Etapas%20da%20instala%C3%A7%C3%A3o)
+Após a instalação do GNU Rádio e o módulo gr-tempest, conectamos um monitor, exibindo a tela do simulador oficial da UEB[2], conectado a um notebook por um cabo de vídeo HDMI. No notebook emulando o papel do adversário, conectamos um SDR Ettus USRP B200, configurado de acordo com os parâmetros fornecidos no artigo[1].
+[2]https://www.tse.jus.br/eleicoes/simulador-de-votacao
