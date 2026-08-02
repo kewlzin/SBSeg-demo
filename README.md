@@ -10,6 +10,7 @@ Síntese dos Resultados
 |1280x768@60|  1 metro                   |    VGA/HDMI        |Ataque bem sucedido| Com/Sem obstáculo |
 |1920x1080@60| 0.5 metros                |    VGA/HDMI        |Ataque bem sucedido| Com/Sem obstáculo |
 |1920x1080@60|  1 metro                  |    VGA/HDMI        |Ataque bem sucedido| Com/Sem obstáculo |
+
 Para distâncias iguais ou superiores a dois metros, não foi poossível obter imagens legíveis no nosso cenário
 
 Este experimento foi conduzido utilizando o módulo grtempest para o gnuradio, compilado em Linux Mint 20
